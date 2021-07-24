@@ -16,27 +16,35 @@ src = req.text
 print(src)
 
 with open("index.html", "w") as file:
-  file.write(src)
-
-
+    file.write(src)
 
 
 # 2 block
 
 # with open("index.html") as file:
 #   src = file.read()
-#
-#
-# soup = BeautifulSoup(src, "lxml")
-# all_cars_hrefs = soup.find_all(class_ = "item-brands")
-#
-#
-# for item in all_cars_hrefs:
-#   item_text = item.text
-#   item_href = "https://auto.ria.com" + str(item.get("href"))
-#   print(f"{item_text} : {item_href}")
 
 
+soup = BeautifulSoup(src, "lxml")
+all_cars_hrefs = soup.find_all(class_ = "item-brands")
+
+print('Number of brands:', len(all_cars_hrefs))
+
+categories_dict = {}
+copy_cnt = 0
+
+for item in all_cars_hrefs:
+    item_text = item.text
+    item_href = "https://auto.ria.com" + str(item.get("href"))
+    if item_text in categories_dict:
+        copy_cnt += 1
+        print('This car model exists')
+    else:
+        categories_dict[item_text] = item_href
+        print(f"{item_text} : {item_href}")
+
+print('Copies:', copy_cnt)
+print('Dict len:', len(categories_dict))
 
 
 # 3 block
